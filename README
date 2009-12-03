@@ -1,6 +1,9 @@
 fraction.js is a fraction library written in javascript.  With it
 you can comfortably create and manipulate fractions from Javascript.
 
+Author: Erik Garrison <erik@hypervolu.me>
+License: MIT
+
 Usage:
 js> load('fraction-0.2.js'); // creates the global Fraction object
 
@@ -16,3 +19,4 @@ js> (new Fraction(0.25)).add(new Fraction(1,6))
 5/12
 js> (new Fraction(0.35)).subtract(new Fraction(1,4))
 1/10
+
