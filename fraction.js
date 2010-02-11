@@ -201,22 +201,20 @@ Fraction.prototype.multiply = function(b)
     return a.normalize();
 }
 
-
 Fraction.prototype.divide = function(b)
 {
     var a = this.clone();
     if (b instanceof Fraction)
     {
-        a.numerator /= b.numerator;
-        a.denominator /= b.denominator;
+        a.numerator *= b.denominator;
+        a.denominator *= b.numerator;
     } else if (typeof b === 'number') {
-        a.numerator /= b;
+        a.denominator *= b;
     } else {
         return a.divide(new Fraction(b));
     }
     return a.normalize();
 }
-
 
 Fraction.prototype.equals = function(b)
 {
