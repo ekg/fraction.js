@@ -92,7 +92,10 @@ Fraction = function(numerator, denominator)
         } else if (typeof(num) === 'string') {
             var a, b;  // hold the first and second part of the fraction, e.g. a = '1' and b = '2/3' in 1 2/3
                        // or a = '2/3' and b = undefined if we are just passed a single-part number
-            [a, b] = num.split(' ');
+                       
+            var t = num.split(' ');
+            a = t[0], b = t[1];
+            
             /* compound fraction e.g. 'A B/C' */
             //  if a is an integer ...
             if (a % 1 === 0 && b && b.match('/')) {
