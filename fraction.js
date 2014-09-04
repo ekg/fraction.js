@@ -72,7 +72,7 @@ THE SOFTWARE.
 Fraction = function(numerator, denominator)
 {
     /* double argument invocation */
-    if (numerator && denominator) {
+    if (typeof numerator !== 'undefined' && denominator) {
         if (typeof(numerator) === 'number' && typeof(denominator) === 'number') {
             this.numerator = numerator;
             this.denominator = denominator;
