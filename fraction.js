@@ -132,6 +132,7 @@ Fraction.prototype.clone = function()
 Fraction.prototype.toString = function()
 {
     var wholepart = Math.floor(this.numerator / this.denominator);
+    if (wholepart<0) wholepart+=1  // round up rather than down on negative numbers
     var numerator = this.numerator % this.denominator 
     var denominator = this.denominator;
     var result = [];
