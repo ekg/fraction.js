@@ -136,7 +136,7 @@ Fraction.prototype.toString = function()
     if (wholepart != 0) 
         result.push(wholepart);
     if (numerator != 0)  
-        result.push(numerator + '/' + denominator);
+        result.push(Math.abs(numerator) + '/' + denominator);
     return result.length > 0 ? result.join(' ') : 0;
 }
 
