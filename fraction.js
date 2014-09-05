@@ -131,12 +131,14 @@ Fraction.prototype.clone = function()
 /* pretty-printer, converts fractions into whole numbers and fractions */
 Fraction.prototype.toString = function()
 {
-    var wholepart = Math.floor(this.numerator / this.denominator);
-    if (wholepart<0&&wholepart!==-1) wholepart+=1  // round up rather than down on negative numbers
+    if (this.denominator===0) return 'NaN'
+    var wholepart = (this.numerator/this.denominator>0) ?
+      Math.floor(this.numerator / this.denominator) :
+      Math.ceil(this.numerator / this.denominator)
     var numerator = this.numerator % this.denominator 
     var denominator = this.denominator;
-    var result = [];
-    if (wholepart != 0) 
+    var result = []; 
+    if (wholepart != 0)  
         result.push(wholepart);
     if (numerator != 0)  
         result.push(((wholepart===0) ? numerator : Math.abs(numerator)) + '/' + denominator);
