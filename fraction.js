@@ -84,7 +84,7 @@ Fraction = function(numerator, denominator)
             this.denominator = parseInt(denominator);
         }
     /* single-argument invocation */
-    } else if (!denominator) {
+    } else if (typeof denominator === 'undefined') {
         num = numerator; // swap variable names for legibility
         if (typeof(num) === 'number') {  // just a straight number init
             this.numerator = num;
@@ -131,7 +131,7 @@ Fraction.prototype.clone = function()
 /* pretty-printer, converts fractions into whole numbers and fractions */
 Fraction.prototype.toString = function()
 {
-    if (this.denominator===0) return 'NaN'
+    if (this.denominator==='NaN') return 'NaN'
     var wholepart = (this.numerator/this.denominator>0) ?
       Math.floor(this.numerator / this.denominator) :
       Math.ceil(this.numerator / this.denominator)
