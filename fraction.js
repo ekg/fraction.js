@@ -72,7 +72,7 @@ THE SOFTWARE.
 Fraction = function(numerator, denominator)
 {
     /* double argument invocation */
-    if (numerator && denominator) {
+    if (typeof numerator !== 'undefined' && denominator) {
         if (typeof(numerator) === 'number' && typeof(denominator) === 'number') {
             this.numerator = numerator;
             this.denominator = denominator;
@@ -84,7 +84,7 @@ Fraction = function(numerator, denominator)
             this.denominator = parseInt(denominator);
         }
     /* single-argument invocation */
-    } else if (!denominator) {
+    } else if (typeof denominator === 'undefined') {
         num = numerator; // swap variable names for legibility
         if (typeof(num) === 'number') {  // just a straight number init
             this.numerator = num;
@@ -92,7 +92,9 @@ Fraction = function(numerator, denominator)
         } else if (typeof(num) === 'string') {
             var a, b;  // hold the first and second part of the fraction, e.g. a = '1' and b = '2/3' in 1 2/3
                        // or a = '2/3' and b = undefined if we are just passed a single-part number
-            [a, b] = num.split(' ');
+            var arr = num.split(' ')
+            if (arr[0]) a = arr[0]
+            if (arr[1]) b = arr[1]
             /* compound fraction e.g. 'A B/C' */
             //  if a is an integer ...
             if (a % 1 === 0 && b && b.match('/')) {
@@ -129,14 +131,17 @@ Fraction.prototype.clone = function()
 /* pretty-printer, converts fractions into whole numbers and fractions */
 Fraction.prototype.toString = function()
 {
-    var wholepart = Math.floor(this.numerator / this.denominator);
+    if (this.denominator==='NaN') return 'NaN'
+    var wholepart = (this.numerator/this.denominator>0) ?
+      Math.floor(this.numerator / this.denominator) :
+      Math.ceil(this.numerator / this.denominator)
     var numerator = this.numerator % this.denominator 
     var denominator = this.denominator;
-    var result = [];
-    if (wholepart != 0) 
+    var result = []; 
+    if (wholepart != 0)  
         result.push(wholepart);
     if (numerator != 0)  
-        result.push(numerator + '/' + denominator);
+        result.push(((wholepart===0) ? numerator : Math.abs(numerator)) + '/' + denominator);
     return result.length > 0 ? result.join(' ') : 0;
 }
 
