@@ -1,0 +1,24 @@
+{
+  "name": "fractional",
+  "version": "1.0.0",
+  "description": "fraction arithmetic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ekg/fraction.js.git"
+  },
+  "keywords": [
+    "fraction",
+    "arithmetic",
+    "math"
+  ],
+  "author": "Erik Garrison",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ekg/fraction.js/issues"
+  },
+  "homepage": "https://github.com/ekg/fraction.js"
+}
