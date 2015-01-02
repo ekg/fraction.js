@@ -29,6 +29,14 @@ function equalityTests()
                  [new Fraction('4/7'), new Fraction('4/7')],
                  [new Fraction(2, 9), new Fraction(2, 9)],
                  [new Fraction(1), new Fraction(1)],
+                 [(new Fraction(1.66668)).snap(), new Fraction('1 2/3')], // Positive greater than actual
+                 [(new Fraction(1.66666)).snap(), new Fraction('1 2/3')], // Positive less than actual
+                 [(new Fraction(-1.66666)).snap(), new Fraction(-5,3)], // Negative less than actual
+                 [(new Fraction(-1.66668)).snap(), new Fraction(-5,3)], // Negative greater than actual
+                 [(new Fraction(3)).snap(), new Fraction(3)], // Positive integer
+                 [(new Fraction(-3)).snap(), new Fraction(-3)], // Negative integer
+                 [(new Fraction(.0003)).snap(), new Fraction(.0003)], // Positive unsnappable
+                 [(new Fraction(-.0003)).snap(), new Fraction(-.0003)], // Negative unsnappable
                  ];
     var pair;
     while (pair = pairs.pop())
