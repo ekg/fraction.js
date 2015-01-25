@@ -92,9 +92,9 @@ Fraction = function(numerator, denominator)
         } else if (typeof(num) === 'string') {
             var a, b;  // hold the first and second part of the fraction, e.g. a = '1' and b = '2/3' in 1 2/3
                        // or a = '2/3' and b = undefined if we are just passed a single-part number
-            var arr = num.split(' ')
-            if (arr[0]) a = arr[0]
-            if (arr[1]) b = arr[1]
+            var arr = num.split(' ');
+            if (arr[0]) a = arr[0];
+            if (arr[1]) b = arr[1];
             /* compound fraction e.g. 'A B/C' */
             //  if a is an integer ...
             if (a % 1 === 0 && b && b.match('/')) {
@@ -127,24 +127,57 @@ Fraction.prototype.clone = function()
     return new Fraction(this.numerator, this.denominator);
 }
 
-
 /* pretty-printer, converts fractions into whole numbers and fractions */
 Fraction.prototype.toString = function()
 {
-    if (this.denominator==='NaN') return 'NaN'
-    var wholepart = (this.numerator/this.denominator>0) ?
-      Math.floor(this.numerator / this.denominator) :
-      Math.ceil(this.numerator / this.denominator)
-    var numerator = this.numerator % this.denominator 
-    var denominator = this.denominator;
-    var result = []; 
-    if (wholepart != 0)  
-        result.push(wholepart);
-    if (numerator != 0)  
-        result.push(((wholepart===0) ? numerator : Math.abs(numerator)) + '/' + denominator);
-    return result.length > 0 ? result.join(' ') : 0;
+	if (isNaN(this.denominator))
+//	if (this.denominator !== this.denominator) //They say it would be faster. (?)
+		return 'NaN';
+    var result = '';
+    if ((this.numerator < 0) != (this.denominator < 0))
+        result = '-';
+    var numerator = Math.abs(this.numerator);
+    var denominator = Math.abs(this.denominator);
+
+    var wholepart = Math.floor(numerator / denominator);
+    numerator = numerator % denominator;
+    if (wholepart != 0)
+        result += wholepart;
+    if (numerator != 0)
+    {
+		if(wholepart != 0)
+			result+=' ';
+        result += numerator + '/' + denominator;
+	}
+    return result.length > 0 ? result : '0';
 }
 
+/* pretty-printer to support TeX notation (using with MathJax, KaTeX, etc) */
+Fraction.prototype.toTeX = function(mixed)
+{
+	if (isNaN(this.denominator))
+		return 'NaN';
+    var result = '';
+    if ((this.numerator < 0) != (this.denominator < 0))
+        result = '-';
+    var numerator = Math.abs(this.numerator);
+    var denominator = Math.abs(this.denominator);
+
+    if(!mixed){
+		//We want a simple fraction, without wholepart extracted
+		if(denominator === 1)
+			return result + numerator;
+		else
+			return result + '\\frac{' + numerator + '}{' + denominator + '}';
+	}
+    var wholepart = Math.floor(numerator / denominator);
+    numerator = numerator % denominator;
+    if (wholepart != 0)
+        result += wholepart;
+    if (numerator != 0)
+        result += '\\frac{' + numerator + '}{' + denominator + '}';
+    return result.length > 0 ? result : '0';
+}
 
 /* destructively rescale the fraction by some integral factor */
 Fraction.prototype.rescale = function(factor)
@@ -153,7 +186,6 @@ Fraction.prototype.rescale = function(factor)
     this.denominator *= factor;
     return this;
 }
-
 
 Fraction.prototype.add = function(b)
 {
@@ -286,7 +318,7 @@ Fraction.prototype.normalize = (function()
         var gcf = Fraction.gcf(this.numerator, this.denominator);
         this.numerator /= gcf;
         this.denominator /= gcf;
-        if ((this.numerator < 0 && this.denominator < 0) || (this.numerator > 0 && this.denominator < 0)) {
+        if (this.denominator < 0) {
             this.numerator *= -1;
             this.denominator *= -1;
         }
@@ -387,5 +419,5 @@ Fraction.prototype.snap = function(max, threshold) {
 };
 
 /* If not in browser */
-if(typeof module !=="undefined")
-	module.exports.Fraction = Fraction
+if(typeof module !== "undefined")
+    module.exports.Fraction = Fraction
