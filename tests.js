@@ -180,5 +180,21 @@ function test_toTeX(){
     }
 }
 
+function test_add(){
+    var pairs = [
+                 [new Fraction(1,3), new Fraction(1,2), '5/6'],
+                 [new Fraction(-1,3), new Fraction(1,2), '1/6'],
+                ];
+    var pairsSlice=pairs.slice();
+    var pair;
+    while (pair = pairs.pop())
+    {
+        print('?: ' + pair[0] + ' + ' + pair[1] + ' === ' + pair[2]);
+        var res=pair[0].add(pair[1]).toString()
+        assert(res === pair[2], res);
+        print('pass');
+    }
+}
+
 // run 'em
 tests();

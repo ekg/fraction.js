@@ -328,44 +328,36 @@ Fraction.prototype.normalize = (function()
 })();
 
 
-/* Takes two numbers and returns their greatest common factor.
- */
-Fraction.gcf = function(a, b)
-{
-
-    var common_factors = [];
-    var fa = Fraction.primeFactors(a);
-    var fb = Fraction.primeFactors(b);
-    // for each factor in fa
-    // if it's also in fb
-    // put it into the common factors
-    fa.forEach(function (factor) 
-    { 
-        var i = fb.indexOf(factor);
-        if (i >= 0) {
-            common_factors.push(factor);
-            fb.splice(i,1); // remove from fb
-        }
-    });
-
-    if (common_factors.length === 0)
-        return 1;
-
-    var gcf = (function() {
-        var r = common_factors[0];
-        var i;
-        for (i=1;i<common_factors.length;i++)
-        {
-            r = r * common_factors[i];
-        }
-        return r;
-    })();
-
-    return gcf;
-
+/* Takes two numbers and returns their greatest common factor. */
+//Adapted from Ratio.js
+Fraction.gcf = function(a, b) {
+    if (arguments.length < 2) {
+        return a;
+    }
+    var c;
+    a = +a;
+    b = +b;
+    // Same as isNaN() but faster
+    if (a !== a || b !== b) {
+        return NaN;
+    }
+    //Same as !isFinite() but faster
+    if (a === Infinity || a === -Infinity || b === Infinity || b === -Infinity) {
+        return Infinity;
+     }
+     // Checks if a or b are decimals
+     if ((a % 1 !== 0) || (b % 1 !== 0)) {
+         throw new Error("Can only operate on integers");
+     }
+     while (b) {
+         c = a % b;
+         a = b;
+         b = c;
+     }
+     return (0 < a) ? a : -a;
 };
 
-
+//Not needed now
 // Adapted from: 
 // http://www.btinternet.com/~se16/js/factor.htm
 Fraction.primeFactors = function(n) 
