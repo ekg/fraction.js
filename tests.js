@@ -1,5 +1,11 @@
 /* Tests */
 
+/* If in browser or print not defined */
+if(typeof window !=="undefined" && window.navigator || typeof print ==="undefined")
+	print=function(a){
+		console.log(a);
+	}
+
 function assert(value, message)
 {
     if (!value)

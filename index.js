@@ -386,4 +386,6 @@ Fraction.prototype.snap = function(max, threshold) {
     return new Fraction(this.numerator, this.denominator);
 };
 
-module.exports.Fraction = Fraction
+/* If not in browser */
+if(typeof module !=="undefined")
+	module.exports.Fraction = Fraction
