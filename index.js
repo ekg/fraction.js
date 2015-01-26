@@ -1,3 +1,4 @@
+'use strict';
 /*
 fraction.js
 A Javascript fraction library.
@@ -69,7 +70,7 @@ THE SOFTWARE.
  *      new Fraction('2 3/4') --> 11/4  (prints as 2 3/4)
  *
  */
-Fraction = function(numerator, denominator)
+var Fraction = function(numerator, denominator)
 {
     /* double argument invocation */
     if (typeof numerator !== 'undefined' && denominator) {
@@ -85,7 +86,7 @@ Fraction = function(numerator, denominator)
         }
     /* single-argument invocation */
     } else if (typeof denominator === 'undefined') {
-        num = numerator; // swap variable names for legibility
+        var num = numerator; // swap variable names for legibility
         if (typeof(num) === 'number') {  // just a straight number init
             this.numerator = num;
             this.denominator = 1;
@@ -195,7 +196,7 @@ Fraction.prototype.add = function(b)
     } else {
         b = new Fraction(b);
     }
-    td = a.denominator;
+    var td = a.denominator;
     a.rescale(b.denominator);
     b.rescale(td);
 
@@ -213,7 +214,7 @@ Fraction.prototype.subtract = function(b)
     } else {
         b = new Fraction(b);
     }
-    td = a.denominator;
+    var td = a.denominator;
     a.rescale(b.denominator);
     b.rescale(td);
 

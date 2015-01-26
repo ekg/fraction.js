@@ -1,8 +1,9 @@
+'use strict';
 /* Tests */
 
 /* If in browser or print not defined */
 if(typeof window !=="undefined" && window.navigator || typeof print ==="undefined")
-	print=function(a){
+	var print=function(a){
 		console.log(a);
 	}
 
@@ -48,7 +49,7 @@ function equalityTests()
     while (pair = pairs.pop())
     {
         print('testing ' + pair);
-        for (i in pair)
+        for (var i in pair)
         {
             assert(pair[i]);
         }
