@@ -118,6 +118,57 @@ function speed_toString(){
 	console.log('New function time per one fraction (ms): ' + newTime / testCount);
 }
 
+
+Fraction.prototype.addOld = function(b)
+{
+    var a = this.clone();
+    if (b instanceof Fraction) {
+        b = b.clone();
+    } else {
+        b = new Fraction(b);
+    }
+    var td = a.denominator;
+    a.rescale(b.denominator);
+    b.rescale(td);
+
+    a.numerator += b.numerator;
+
+    return a.normalize();
+}
+
+function speed_add(){
+
+	var testArray = [];
+	var testCount = 1000000;
+	for(var i = 0; i < testCount; i++)
+	{
+		testArray.push(new Fraction(
+			Math.ceil(Math.random() * 20000 - 10000),
+			Math.ceil(Math.random() * 20000 - 10000)
+		));
+	}
+
+	//Firstly, test the old function
+
+	//Make a variable not to allow optimization of FOR by cutting it of (not sure that this is necessary)
+	var temp = '';
+	var currentTime = new Date().getTime();
+	for(i = 1; i < testCount; i++)
+	{
+		temp = testArray[i].addOld(testArray[i-1]);
+	}
+	var oldTime = new Date().getTime() - currentTime;
+	console.log('Old function time per one fraction (ms): ' + oldTime / testCount);
+
+    currentTime = new Date().getTime();
+	for(i = 0; i < testCount; i++)
+	{
+		temp = testArray[i].add(testArray[i-1]);
+	}
+	var newTime = new Date().getTime() - currentTime;
+	console.log('New function time per one fraction (ms): ' + newTime / testCount);
+}
+
 /* Unit test for toString() */
 function test_toString(){
     var pairs = [

@@ -198,9 +198,7 @@ Fraction.prototype.add = function(b)
     }
     var td = a.denominator;
     a.rescale(b.denominator);
-    b.rescale(td);
-
-    a.numerator += b.numerator;
+    a.numerator += b.numerator * td;
 
     return a.normalize();
 }
@@ -216,9 +214,7 @@ Fraction.prototype.subtract = function(b)
     }
     var td = a.denominator;
     a.rescale(b.denominator);
-    b.rescale(td);
-
-    a.numerator -= b.numerator;
+    a.numerator -= b.numerator * td;
 
     return a.normalize();
 }
@@ -277,7 +273,7 @@ Fraction.prototype.normalize = (function()
 
     var isFloat = function(n)
     {
-        return (typeof(n) === 'number' && 
+        return (typeof(n) === 'number' &&
                 ((n > 0 && n % 1 > 0 && n % 1 < 1) || 
                  (n < 0 && n % -1 < 0 && n % -1 > -1))
                );
@@ -336,8 +332,9 @@ Fraction.gcf = function(a, b) {
         return a;
     }
     var c;
-    a = +a;
-    b = +b;
+    a = Math.abs(a);
+    b = Math.abs(b);
+/*  //It seems to be no need in these checks
     // Same as isNaN() but faster
     if (a !== a || b !== b) {
         return NaN;
@@ -350,12 +347,14 @@ Fraction.gcf = function(a, b) {
      if ((a % 1 !== 0) || (b % 1 !== 0)) {
          throw new Error("Can only operate on integers");
      }
-     while (b) {
-         c = a % b;
-         a = b;
-         b = c;
-     }
-     return (0 < a) ? a : -a;
+*/
+
+    while (b) {
+        c = a % b;
+        a = b;
+        b = c;
+    }
+    return a;
 };
 
 //Not needed now
