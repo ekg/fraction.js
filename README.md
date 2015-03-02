@@ -27,6 +27,12 @@ var Fraction = require('fractional').Fraction
 
 (new Fraction(0.35)).subtract(new Fraction(1,4)).toString()
 // 1/10
+
+(new Fraction(5, 10)).numerator
+// 5
+
+(new Fraction(3, 4)).denominator
+// 4
 ```
 
 ## It's basic arithmetic
