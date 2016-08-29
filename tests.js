@@ -43,6 +43,8 @@ function equalityTests()
                  [new Fraction('1/9'), new Fraction(1, 9)],
                  [new Fraction('4/7'), new Fraction('4/7')],
 
+                 [new Fraction(2, 9), new Fraction(new Fraction(2, 9))],
+
                  [new Fraction(2, 9), new Fraction(2, 9)],
                  [new Fraction(2, 9), new Fraction(new Number(2), 9)],
                  [new Fraction(2, 9), new Fraction(2, new Number(9))],

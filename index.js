@@ -96,7 +96,10 @@ var Fraction = function(numerator, denominator)
     /* single-argument invocation */
     } else if (typeof denominator === 'undefined') {
         var num = numerator; // swap variable names for legibility
-        if (typeof(num) === 'number' || num instanceof Number) {  // just a straight number init
+		if (num instanceof Fraction) {
+			this.numerator = num.numerator;
+			this.denominator = num.denominator;
+		} else if (typeof(num) === 'number' || num instanceof Number) {  // just a straight number init
             this.numerator = num;
             this.denominator = 1;
         } else if (typeof(num) === 'string' || num instanceof String) {
