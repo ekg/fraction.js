@@ -80,9 +80,9 @@ var Fraction = function(numerator, denominator)
         } else if (typeof(numerator) === 'string' && typeof(denominator) === 'string') {
             // what are they?
             // hmm....
-            // assume they are ints?
-            this.numerator = parseInt(numerator);
-            this.denominator = parseInt(denominator);
+            // assume they are floats?
+            this.numerator = parseFloat(numerator.replace(",","."));
+            this.denominator = parseFloat(denominator.replace(",","."));
         }
     /* single-argument invocation */
     } else if (typeof denominator === 'undefined') {
@@ -108,7 +108,7 @@ var Fraction = function(numerator, denominator)
                     this.numerator = f[0]; this.denominator = f[1];
                 /* string floating point */
                 } else if (typeof(a) === 'string' && a.match('\.')) {
-                    return new Fraction(parseFloat(a));
+                    return new Fraction(parseFloat(a.replace(",",".")));
                 /* whole number e.g. 'A' */
                 } else { // just passed a whole number as a string
                     this.numerator = parseInt(a);

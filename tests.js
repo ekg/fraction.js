@@ -38,6 +38,7 @@ function equalityTests()
                  [new Fraction('1/4'), new Fraction('0.25')],
                  [new Fraction('3/2'), new Fraction('1 1/2')],
                  [new Fraction('7/8'), new Fraction('0.875')],
+                 [new Fraction('7/8'), new Fraction('0,875')], // Comma separator
                  [new Fraction('1/3'), new Fraction(1, 3)],
                  [new Fraction('1/9'), new Fraction(1, 9)],
                  [new Fraction('4/7'), new Fraction('4/7')],
