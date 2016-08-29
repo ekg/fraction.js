@@ -7,6 +7,13 @@ if(typeof window !=="undefined" && window.navigator || typeof print ==="undefine
 		console.log(a);
 	}
 
+if(typeof require !=="undefined"){
+	try{
+		var Fraction = require('./index.js').Fraction;
+	} catch (e) {
+	}
+}
+
 function assert(value, message)
 {
     if (!value)
