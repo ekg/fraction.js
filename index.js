@@ -74,23 +74,35 @@ var Fraction = function(numerator, denominator)
 {
     /* double argument invocation */
     if (typeof numerator !== 'undefined' && denominator) {
-        if (typeof(numerator) === 'number' && typeof(denominator) === 'number') {
+        if (
+			(typeof(  numerator) === 'number' ||   numerator instanceof Number)
+		&&
+			(typeof(denominator) === 'number' || denominator instanceof Number)
+		){
             this.numerator = numerator;
             this.denominator = denominator;
-        } else if (typeof(numerator) === 'string' && typeof(denominator) === 'string') {
+        } else if (
+			(typeof(  numerator) === 'string' ||   numerator instanceof String)
+		&&
+			(typeof(denominator) === 'string' || denominator instanceof String)
+		) {
             // what are they?
             // hmm....
-            // assume they are ints?
-            this.numerator = parseInt(numerator);
-            this.denominator = parseInt(denominator);
+            // assume they are floats?
+            this.numerator = parseFloat(numerator.replace(",","."));
+            this.denominator = parseFloat(denominator.replace(",","."));
         }
+        // TODO: should we handle cases when one argument is String and another is Number?
     /* single-argument invocation */
     } else if (typeof denominator === 'undefined') {
         var num = numerator; // swap variable names for legibility
-        if (typeof(num) === 'number') {  // just a straight number init
+		if (num instanceof Fraction) {
+			this.numerator = num.numerator;
+			this.denominator = num.denominator;
+		} else if (typeof(num) === 'number' || num instanceof Number) {  // just a straight number init
             this.numerator = num;
             this.denominator = 1;
-        } else if (typeof(num) === 'string') {
+        } else if (typeof(num) === 'string' || num instanceof String) {
             var a, b;  // hold the first and second part of the fraction, e.g. a = '1' and b = '2/3' in 1 2/3
                        // or a = '2/3' and b = undefined if we are just passed a single-part number
             var arr = num.split(' ');
@@ -102,13 +114,13 @@ var Fraction = function(numerator, denominator)
                 return (new Fraction(a)).add(new Fraction(b));
             } else if (a && !b) {
                 /* simple fraction e.g. 'A/B' */
-                if (typeof(a) === 'string' && a.match('/')) {
+                if ((typeof(a) === 'string' || a instanceof String) && a.match('/')) {
                     // it's not a whole number... it's actually a fraction without a whole part written
                     var f = a.split('/');
                     this.numerator = f[0]; this.denominator = f[1];
                 /* string floating point */
-                } else if (typeof(a) === 'string' && a.match('\.')) {
-                    return new Fraction(parseFloat(a));
+                } else if ((typeof(a) === 'string' || a instanceof String) && a.match('\.')) {
+                    return new Fraction(parseFloat(a.replace(",",".")));
                 /* whole number e.g. 'A' */
                 } else { // just passed a whole number as a string
                     this.numerator = parseInt(a);

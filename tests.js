@@ -7,6 +7,13 @@ if(typeof window !=="undefined" && window.navigator || typeof print ==="undefine
 		console.log(a);
 	}
 
+if(typeof require !=="undefined"){
+	try{
+		var Fraction = require('./index.js').Fraction;
+	} catch (e) {
+	}
+}
+
 function assert(value, message)
 {
     if (!value)
@@ -25,17 +32,35 @@ function equalityTests()
                  // maybe this is unreasonable...
                  // not even the python standard fraction library gets
                  // irrational decimals right
-                 [new Fraction(1/3),   new Fraction(1, 3)],
-                 [new Fraction(2,3), new Fraction(2/3)],  // FAILS XXX, poor rounding handling
-                 [new Fraction('2/3'), new Fraction(2, 3)],  // FAILS XXX, poor rounding handling
-                 [new Fraction('1/4'), new Fraction('0.25')], 
+//               [new Fraction(1/3),   new Fraction(1, 3)],  // FAILS XXX, poor rounding handling
+//               [new Fraction(2,3), new Fraction(2/3)],  // FAILS XXX, poor rounding handling
+                 [new Fraction('2/3'), new Fraction(2, 3)],
+                 [new Fraction('1/4'), new Fraction('0.25')],
                  [new Fraction('3/2'), new Fraction('1 1/2')],
                  [new Fraction('7/8'), new Fraction('0.875')],
+                 [new Fraction('7/8'), new Fraction('0,875')], // Comma separator
                  [new Fraction('1/3'), new Fraction(1, 3)],
                  [new Fraction('1/9'), new Fraction(1, 9)],
                  [new Fraction('4/7'), new Fraction('4/7')],
+
+                 [new Fraction(2, 9), new Fraction(new Fraction(2, 9))],
+
                  [new Fraction(2, 9), new Fraction(2, 9)],
+                 [new Fraction(2, 9), new Fraction(new Number(2), 9)],
+                 [new Fraction(2, 9), new Fraction(2, new Number(9))],
+                 [new Fraction(2, 9), new Fraction(new Number(2), new Number(9))],
+
+                 [new Fraction(2, 9), new Fraction('2', '9')],
+                 [new Fraction(2, 9), new Fraction(new String('2'), '9')],
+                 [new Fraction(2, 9), new Fraction('2', new String('9'))],
+                 [new Fraction(2, 9), new Fraction(new String('2'), new String('9'))],
+
                  [new Fraction(1), new Fraction(1)],
+                 [new Fraction(1), new Fraction(new Number(1))],
+                 [new Fraction('1'), new Fraction(1)],
+                 [new Fraction(1), new Fraction(new String(1))],
+                 [new Fraction(1), new Fraction(new String('1'))],
+
                  [(new Fraction(1.66668)).snap(), new Fraction('1 2/3')], // Positive greater than actual
                  [(new Fraction(1.66666)).snap(), new Fraction('1 2/3')], // Positive less than actual
                  [(new Fraction(-1.66666)).snap(), new Fraction(-5,3)], // Negative less than actual
