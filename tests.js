@@ -55,6 +55,12 @@ function equalityTests()
                  [new Fraction(2, 9), new Fraction('2', new String('9'))],
                  [new Fraction(2, 9), new Fraction(new String('2'), new String('9'))],
 
+                 [new Fraction(2, 9), new Fraction('2', 9)],
+                 [new Fraction(2, 9), new Fraction(2, '9')],
+                 [new Fraction(-2, 9), new Fraction('-2', 9)],
+                 [new Fraction(-2, 9), new Fraction(2, '-9')],
+
+
                  [new Fraction(1), new Fraction(1)],
                  [new Fraction(1), new Fraction(new Number(1))],
                  [new Fraction('1'), new Fraction(1)],
