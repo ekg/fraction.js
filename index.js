@@ -331,7 +331,7 @@ Fraction.prototype.normalize = (function()
         } 
         if (isFloat(this.numerator)) {
             var rounded = roundToPlaces(this.numerator, 9);
-            var scaleup = Math.pow(10, rounded.toString().split('.')[1].length);
+            var scaleup = Math.pow(10, makeString(rounded).split('.')[1].length);
             this.numerator = Math.round(this.numerator * scaleup); // this !!! should be a whole number
             //this.numerator *= scaleup;
             this.denominator *= scaleup;
