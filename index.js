@@ -300,6 +300,18 @@ Fraction.prototype.normalize = (function()
             return Math.round(n*scalar)/scalar;
         }
     }
+    // added for the case where decimal is ending with .999999 ex 8.999999999
+    var makeString = function(n) {
+        let ans = n.toString();
+        // no decimal point is present, then we add a decimal point
+        if (ans.indexOf(".") === -1) {
+          return ans  + ".0";
+        }
+        // else return as it is
+        return ans;
+      }
+    
+    
         
     return (function() {
 
@@ -312,7 +324,7 @@ Fraction.prototype.normalize = (function()
          */
         if (isFloat(this.denominator)) {
             var rounded = roundToPlaces(this.denominator, 9);
-            var scaleup = Math.pow(10, rounded.toString().split('.')[1].length);
+            var scaleup = Math.pow(10, makeString(rounded).split('.')[1].length);
             this.denominator = Math.round(this.denominator * scaleup); // this !!! should be a whole number
             //this.numerator *= scaleup;
             this.numerator *= scaleup;
