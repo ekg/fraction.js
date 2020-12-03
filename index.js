@@ -74,35 +74,23 @@ var Fraction = function(numerator, denominator)
 {
     /* double argument invocation */
     if (typeof numerator !== 'undefined' && denominator) {
-        if (
-			(typeof(  numerator) === 'number' ||   numerator instanceof Number)
-		&&
-			(typeof(denominator) === 'number' || denominator instanceof Number)
-		){
+		// Firstly turn one or two strings, if they exist, into floats
+		numerator = Fraction.stringToFloat(numerator);
+		denominator = Fraction.stringToFloat(denominator);
+		if (Fraction.isNumber(numerator) && Fraction.isNumber(denominator)) {
             this.numerator = numerator;
             this.denominator = denominator;
-        } else if (
-			(typeof(  numerator) === 'string' ||   numerator instanceof String)
-		&&
-			(typeof(denominator) === 'string' || denominator instanceof String)
-		) {
-            // what are they?
-            // hmm....
-            // assume they are floats?
-            this.numerator = parseFloat(numerator.replace(",","."));
-            this.denominator = parseFloat(denominator.replace(",","."));
         }
-        // TODO: should we handle cases when one argument is String and another is Number?
     /* single-argument invocation */
     } else if (typeof denominator === 'undefined') {
         var num = numerator; // swap variable names for legibility
 		if (num instanceof Fraction) {
 			this.numerator = num.numerator;
 			this.denominator = num.denominator;
-		} else if (typeof(num) === 'number' || num instanceof Number) {  // just a straight number init
+		} else if (Fraction.isNumber(numerator)) {  // just a straight number init
             this.numerator = num;
             this.denominator = 1;
-        } else if (typeof(num) === 'string' || num instanceof String) {
+        } else if (Fraction.isString(numerator)) {
             var a, b;  // hold the first and second part of the fraction, e.g. a = '1' and b = '2/3' in 1 2/3
                        // or a = '2/3' and b = undefined if we are just passed a single-part number
             var arr = num.split(' ');
@@ -114,13 +102,13 @@ var Fraction = function(numerator, denominator)
                 return (new Fraction(a)).add(new Fraction(b));
             } else if (a && !b) {
                 /* simple fraction e.g. 'A/B' */
-                if ((typeof(a) === 'string' || a instanceof String) && a.match('/')) {
+                if (Fraction.isString(a) && a.match('/')) {
                     // it's not a whole number... it's actually a fraction without a whole part written
                     var f = a.split('/');
                     this.numerator = f[0]; this.denominator = f[1];
                 /* string floating point */
-                } else if ((typeof(a) === 'string' || a instanceof String) && a.match('\.')) {
-                    return new Fraction(parseFloat(a.replace(",",".")));
+                } else if (Fraction.isString(a) && a.match('\.')) {
+                    return new Fraction(Fraction.stringToFloat(a));
                 /* whole number e.g. 'A' */
                 } else { // just passed a whole number as a string
                     this.numerator = parseInt(a);
@@ -348,6 +336,22 @@ Fraction.prototype.normalize = (function()
 
 })();
 
+/* The next two function are necessary due to curly-hand-made JS typization. */
+Fraction.isNumber = function(smth) {
+	return (typeof(smth) === 'number' || smth instanceof Number);
+}
+
+Fraction.isString = function(smth) {
+	return (typeof(smth) === 'string' || smth instanceof String);
+}
+
+/* Takes something and, if it is a string, parses it to float; otherwise does nothing. */
+Fraction.stringToFloat = function(str){
+	if(Fraction.isString(str)){
+		return parseFloat(str.replace(",","."));
+	}
+	return str;
+}
 
 /* Takes two numbers and returns their greatest common factor. */
 //Adapted from Ratio.js
